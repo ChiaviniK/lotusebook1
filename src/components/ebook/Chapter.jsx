@@ -1,0 +1,186 @@
+import { ChevronLeft, ChevronRight, Share2, Printer, Unlock } from 'lucide-react';
+import Chapter1Simulation from '../simulations/Chapter1Simulation';
+import Chapter2Simulation from '../simulations/Chapter2Simulation';
+import Chapter3Simulation from '../simulations/Chapter3Simulation';
+import Chapter4Simulation from '../simulations/Chapter4Simulation';
+import Chapter5Simulation from '../simulations/Chapter5Simulation';
+import Chapter6Simulation from '../simulations/Chapter6Simulation';
+import Chapter7Simulation from '../simulations/Chapter7Simulation';
+
+import ImpactSimulator from '../simulations/ImpactSimulator';
+import DataFetcherMock from '../simulations/DataFetcherMock';
+import ImputationSim from '../simulations/ImputationSim';
+import ArchitectureQuiz from '../simulations/ArchitectureQuiz';
+import ScatterCorrelation from '../simulations/ScatterCorrelation';
+import ChartSelector from '../simulations/ChartSelector';
+import RandomForestMock from '../simulations/RandomForestMock';
+import SigMapSimulation from '../simulations/SigMapSimulation';
+import DataFormatQuiz from '../simulations/DataFormatQuiz';
+import ExcelMock from '../simulations/ExcelMock';
+import ChartBuilder from '../simulations/ChartBuilder';
+import PandasDragDrop from '../simulations/PandasDragDrop';
+import PandasFilterDragDrop from '../simulations/PandasFilterDragDrop';
+
+import styles from './Chapter.module.css';
+
+// We now map simulations via string identifiers in the chapters.js
+const getSimulation = (simName) => {
+  switch (simName) {
+    case 'ImpactSimulator': return <ImpactSimulator />;
+    case 'QuestionBuilder': return <Chapter1Simulation />; // Reusing the visual created in phase 1
+    
+    case 'DataFetcherMock': return <DataFetcherMock />;
+    case 'NDVIViewer': return <Chapter2Simulation />;
+    case 'DataFormatQuiz': return <DataFormatQuiz />;
+
+    case 'TableCleaner': return <Chapter3Simulation />;
+    case 'ImputationSim': return <ImputationSim />;
+
+    case 'ArchitectureQuiz': return <ArchitectureQuiz />;
+    case 'PipelineBuilder': return <Chapter4Simulation />;
+    case 'ExcelMock': return <ExcelMock />;
+
+    case 'AnomalyDetector': return <Chapter5Simulation />;
+    case 'ScatterCorrelation': return <ScatterCorrelation />;
+
+    case 'ChartSelector': return <ChartSelector />;
+    case 'ColorblindTest': return <Chapter6Simulation />;
+    case 'SigMapSimulation': return <SigMapSimulation />;
+    case 'ChartBuilder': return <ChartBuilder />;
+
+    case 'PythonTerminal': return <Chapter7Simulation />;
+    case 'RandomForestMock': return <RandomForestMock />;
+
+    case 'PandasDragDrop': return <PandasDragDrop />;
+    case 'PandasFilterDragDrop': return <PandasFilterDragDrop />;
+    
+    default: return null;
+  }
+};
+
+const Chapter = ({ chapter, totalChapters, setActiveChapter, unlockedSections = [1], setUnlockedSections }) => {
+  if (!chapter) return null;
+
+  const isFirst = chapter.id === 1;
+  const isLast = chapter.id === totalChapters;
+
+  const handlePrev = () => {
+    if (!isFirst) {
+      setActiveChapter(chapter.id - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleNext = () => {
+    if (!isLast) {
+      setActiveChapter(chapter.id + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const isLockedNext = !unlockedSections.includes(chapter.id + 1) && !isLast;
+
+  const handleUnlockNext = () => {
+    if (!unlockedSections.includes(chapter.id + 1)) {
+      setUnlockedSections(prev => [...prev, chapter.id + 1]);
+    }
+    setActiveChapter(chapter.id + 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <article className={styles.article}>
+      <header className={styles.header}>
+        <div className={styles.meta}>
+          <span className={styles.chapterLabel}>Capítulo {chapter.id}</span>
+          <div className={styles.actions}>
+            <button className={styles.actionBtn} aria-label="Imprimir capítulo">
+              <Printer size={18} />
+            </button>
+            <button className={styles.actionBtn} aria-label="Compartilhar">
+              <Share2 size={18} />
+            </button>
+          </div>
+        </div>
+        <h1 className={styles.title}>{chapter.title}</h1>
+      </header>
+
+      <div className={styles.content}>
+        {/* Agora iterando pelos subsections/subtópicos */}
+        {chapter.subsections && chapter.subsections.map((sub) => (
+          <section key={sub.id} id={`sub-${sub.id}`} className={styles.section} style={{ paddingBottom: '3rem' }}>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+              <span style={{ 
+                backgroundColor: 'var(--color-bg)', 
+                color: 'var(--color-secondary)', 
+                padding: '0.25rem 0.5rem', 
+                borderRadius: '4px', 
+                fontWeight: 'bold' 
+              }}>
+                {sub.id}
+              </span>
+              <h2 className={styles.subtitle} style={{ margin: 0, borderLeft: 'none', paddingLeft: 0 }}>
+                {sub.title}
+              </h2>
+            </div>
+
+            <div className={styles.textContainer}>
+              {sub.content.split('\n').map((paragraph, pIndex) => (
+                <p key={pIndex} className={styles.paragraph}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+
+            {/* Simulação específica deste subcapítulo injetada nativamente */}
+            {sub.simulation && (
+              <div style={{ marginTop: '2rem' }}>
+                {getSimulation(sub.simulation)}
+              </div>
+            )}
+            
+            <hr style={{ border: 'none', borderBottom: '1px dashed var(--color-border)', margin: '3rem 0 0 0' }} />
+          </section>
+        ))}
+      </div>
+
+      <footer className={styles.footer}>
+        <button 
+          onClick={handlePrev} 
+          disabled={isFirst}
+          className={`${styles.navBtn} ${isFirst ? styles.disabled : ''}`}
+        >
+          <ChevronLeft size={20} />
+          <span>Capítulo Anterior</span>
+        </button>
+
+        <span className={styles.progress}>
+          {chapter.id} de {totalChapters}
+        </span>
+
+        {isLockedNext ? (
+          <button 
+            onClick={handleUnlockNext} 
+            className={styles.navBtn}
+            style={{ backgroundColor: 'var(--color-secondary)', color: 'white', border: 'none', padding: '0.75rem 1.5rem' }}
+          >
+            <span style={{ fontWeight: 'bold' }}>Concluir e Desbloquear</span>
+            <Unlock size={20} />
+          </button>
+        ) : (
+          <button 
+            onClick={handleNext} 
+            disabled={isLast}
+            className={`${styles.navBtn} ${isLast ? styles.disabled : ''}`}
+          >
+            <span>Próximo Capítulo</span>
+            <ChevronRight size={20} />
+          </button>
+        )}
+      </footer>
+    </article>
+  );
+};
+
+export default Chapter;
