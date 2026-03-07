@@ -34,6 +34,22 @@ import StatsBasic from '../simulations/StatsBasic';
 import GraphBasic from '../simulations/GraphBasic';
 import ImportFlow from '../simulations/ImportFlow';
 
+import LogicBuilder from '../simulations/LogicBuilder';
+import PandasVsExcel from '../simulations/PandasVsExcel';
+import SeabornPlotter from '../simulations/SeabornPlotter';
+import GeojsonViewer from '../simulations/GeojsonViewer';
+import ApiBuilder from '../simulations/ApiBuilder';
+
+// Novas Simulações da Fase 11 (Python)
+import ColabSimulator from '../simulations/ColabSimulator';
+import PythonVariables from '../simulations/PythonVariables';
+import PandasFilter from '../simulations/PandasFilter';
+import PandasGroupby from '../simulations/PandasGroupby';
+import TimeTrendPlot from '../simulations/TimeTrendPlot';
+import CorrelationHeatmap from '../simulations/CorrelationHeatmap';
+import SpatialPlot from '../simulations/SpatialPlot';
+import BufferIntersect from '../simulations/BufferIntersect';
+
 import styles from './Chapter.module.css';
 
 // We now map simulations via string identifiers in the chapters.js
@@ -77,6 +93,21 @@ const getSimulation = (simName) => {
     case 'ExcelStats': return <ExcelStats />;
     case 'CarbonScenario': return <CarbonScenario />;
     case 'DashboardKpi': return <DashboardKpi />;
+
+    case 'LogicBuilder': return <LogicBuilder />;
+    case 'PandasVsExcel': return <PandasVsExcel />;
+    case 'SeabornPlotter': return <SeabornPlotter />;
+    case 'GeojsonViewer': return <GeojsonViewer />;
+    case 'ApiBuilder': return <ApiBuilder />;
+
+    case 'ColabSimulator': return <ColabSimulator />;
+    case 'PythonVariables': return <PythonVariables />;
+    case 'PandasFilter': return <PandasFilter />;
+    case 'PandasGroupby': return <PandasGroupby />;
+    case 'TimeTrendPlot': return <TimeTrendPlot />;
+    case 'CorrelationHeatmap': return <CorrelationHeatmap />;
+    case 'SpatialPlot': return <SpatialPlot />;
+    case 'BufferIntersect': return <BufferIntersect />;
 
     default: return null;
   }

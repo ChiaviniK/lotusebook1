@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { BookOpen, ChevronRight, ChevronDown, Menu, Lock, Moon, Sun } from 'lucide-react';
+import { BookOpen, ChevronRight, ChevronDown, Menu, Lock, Moon, Sun, User, LogOut } from 'lucide-react';
 import PdfGenerator from '../ebook/PdfGenerator';
 import styles from './Sidebar.module.css';
 
-const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSidebar, unlockedSections = [1], theme, setTheme, courses, activeCourseId, setActiveCourseId }) => {
+const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSidebar, unlockedSections = [1], theme, setTheme, courses, activeCourseId, setActiveCourseId, userProfile, onLogout }) => {
   const [expandedChapter, setExpandedChapter] = useState(1);
 
   const toggleAccordion = (chapterId) => {
@@ -125,20 +125,41 @@ const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSide
           />
         </div>
 
-        <div className={styles.footer} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', paddingBottom: '2rem' }}>
-          <button 
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-            style={{ 
-              display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', 
-              backgroundColor: 'var(--color-surface)', color: 'var(--color-text-main)', 
-              border: '1px solid var(--color-border)', borderRadius: '99px', cursor: 'pointer',
-              transition: 'all 0.3s ease'
-            }}
-          >
-            {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
-            <span style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>{theme === 'light' ? 'Modo Escuro' : 'Modo Claro'}</span>
-          </button>
-          <p>Para Todos © 2026</p>
+        <div className={styles.footer} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', paddingBottom: '2rem' }}>
+          
+          {userProfile && (
+            <div style={{ backgroundColor: 'var(--color-bg)', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--color-border)', mb: 2 }}>
+               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  <div style={{ width: 28, height: 28, backgroundColor: 'var(--color-primary)', borderRadius: '50%', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                     <User size={16} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--color-text-main)' }}>{userProfile.name}</div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', overflow: 'hidden', textOverflow: 'ellipsis' }}>{userProfile.email}</div>
+                  </div>
+               </div>
+               
+               <button onClick={onLogout} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.4rem', backgroundColor: 'transparent', border: '1px solid #ef4444', color: '#ef4444', borderRadius: '6px', fontSize: '0.8rem', cursor: 'pointer', transition: 'background-color 0.2s' }}>
+                  <LogOut size={14} /> Desconectar
+               </button>
+            </div>
+          )}
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <button 
+              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+              style={{ 
+                display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', 
+                backgroundColor: 'var(--color-surface)', color: 'var(--color-text-main)', 
+                border: '1px solid var(--color-border)', borderRadius: '99px', cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+              <span style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>{theme === 'light' ? 'Escuro' : 'Claro'}</span>
+            </button>
+            <p style={{ margin: 0, fontSize: '0.75rem' }}>Lotus © 2026</p>
+          </div>
         </div>
       </aside>
     </>

@@ -3,17 +3,31 @@ import MainLayout from './components/layout/MainLayout';
 import Chapter from './components/ebook/Chapter';
 import { chapters as dataScienceChapters } from './data/chapters';
 import { excelChapters } from './data/excelChapters';
+import { pythonChapters } from './data/pythonChapters';
+import Login from './components/auth/Login';
 
 import { DndProvider } from 'react-dnd';
 import { MultiBackend } from 'react-dnd-multi-backend';
 import { HTML5toTouch } from 'rdndmb-html5-to-touch';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem('lotus_auth_v2') === 'true';
+  });
+  const [userProfile, setUserProfile] = useState(() => {
+    const saved = localStorage.getItem('lotus_profile_v2');
+    return saved ? JSON.parse(saved) : null;
+  });
+
   const [activeCourseId, setActiveCourseId] = useState(() => {
     return localStorage.getItem('lotus_activeCourse') || 'data_science';
   });
 
-  const getActiveChaptersObj = () => activeCourseId === 'excel_ambiente' ? excelChapters : dataScienceChapters;
+  const getActiveChaptersObj = () => {
+    if (activeCourseId === 'excel_ambiente') return excelChapters;
+    if (activeCourseId === 'python_basics') return pythonChapters;
+    return dataScienceChapters;
+  };
   const currentChaptersObj = getActiveChaptersObj();
 
   const [activeChapterId, setActiveChapterId] = useState(() => {
@@ -103,8 +117,27 @@ function App() {
 
   const courses = [
     { id: 'data_science', name: 'Ciência de Dados Ambientais' },
-    { id: 'excel_ambiente', name: 'Excel Ambiental: A Física dos Dados' }
+    { id: 'excel_ambiente', name: 'Excel Ambiental: A Física dos Dados' },
+    { id: 'python_basics', name: 'Python Ambiental: Automação Absoluta' }
   ];
+
+  const handleLoginSuccess = (profile) => {
+    setIsLoggedIn(true);
+    setUserProfile(profile);
+    localStorage.setItem('lotus_auth_v2', 'true');
+    localStorage.setItem('lotus_profile_v2', JSON.stringify(profile));
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserProfile(null);
+    localStorage.removeItem('lotus_auth_v2');
+    localStorage.removeItem('lotus_profile_v2');
+  };
+
+  if (!isLoggedIn) {
+     return <Login onLogin={handleLoginSuccess} />;
+  }
 
   return (
     <MainLayout 
@@ -117,6 +150,8 @@ function App() {
       courses={courses}
       activeCourseId={activeCourseId}
       setActiveCourseId={setActiveCourseId}
+      userProfile={userProfile}
+      onLogout={handleLogout}
     >
       <DndProvider backend={MultiBackend} options={HTML5toTouch}>
         <Chapter 
