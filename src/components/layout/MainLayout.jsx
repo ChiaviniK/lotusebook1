@@ -3,7 +3,7 @@ import { Menu } from 'lucide-react';
 import Sidebar from './Sidebar';
 import styles from './MainLayout.module.css';
 
-const MainLayout = ({ chapters, activeChapter, setActiveChapter, unlockedSections, children }) => {
+const MainLayout = ({ chapters, activeChapter, setActiveChapter, unlockedSections, theme, setTheme, children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -19,6 +19,8 @@ const MainLayout = ({ chapters, activeChapter, setActiveChapter, unlockedSection
         isOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
         unlockedSections={unlockedSections}
+        theme={theme}
+        setTheme={setTheme}
       />
       
       <main className={`${styles.main} ${isSidebarOpen ? styles.sidebarOpen : ''}`}>

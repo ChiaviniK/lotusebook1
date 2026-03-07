@@ -1,4 +1,6 @@
-import { ChevronLeft, ChevronRight, Share2, Printer, Unlock } from 'lucide-react';
+import { useEffect, useCallback } from 'react';
+import { ChevronLeft, ChevronRight, Share2, Printer, Unlock, Award } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import Chapter1Simulation from '../simulations/Chapter1Simulation';
 import Chapter2Simulation from '../simulations/Chapter2Simulation';
 import Chapter3Simulation from '../simulations/Chapter3Simulation';
@@ -64,18 +66,47 @@ const Chapter = ({ chapter, totalChapters, setActiveChapter, unlockedSections = 
   const isFirst = chapter.id === 1;
   const isLast = chapter.id === totalChapters;
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (!isFirst) {
       setActiveChapter(chapter.id - 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  };
+  }, [isFirst, chapter.id, setActiveChapter]);
 
-  const handleNext = () => {
-    if (!isLast) {
+  const handleNext = useCallback(() => {
+    if (!isLast && unlockedSections.includes(chapter.id + 1)) {
       setActiveChapter(chapter.id + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  }, [isLast, unlockedSections, chapter.id, setActiveChapter]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight') {
+        handleNext();
+      } else if (e.key === 'ArrowLeft') {
+        handlePrev();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleNext, handlePrev]);
+
+  const fireConfetti = () => {
+    const duration = 3 * 1000;
+    const end = Date.now() + duration;
+
+    const frame = () => {
+      confetti({
+        particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#2ea14f', '#f39c12', '#ffffff']
+      });
+      confetti({
+        particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#2ea14f', '#f39c12', '#ffffff']
+      });
+
+      if (Date.now() < end) requestAnimationFrame(frame);
+    };
+    frame();
   };
 
   const isLockedNext = !unlockedSections.includes(chapter.id + 1) && !isLast;
@@ -170,12 +201,12 @@ const Chapter = ({ chapter, totalChapters, setActiveChapter, unlockedSections = 
           </button>
         ) : (
           <button 
-            onClick={handleNext} 
-            disabled={isLast}
-            className={`${styles.navBtn} ${isLast ? styles.disabled : ''}`}
+            onClick={fireConfetti} 
+            className={`${styles.navBtn}`}
+            style={{ backgroundColor: 'var(--color-primary)', color: 'white', border: 'none' }}
           >
-            <span>Próximo Capítulo</span>
-            <ChevronRight size={20} />
+            <span>Finalizar Curso</span>
+            <Award size={20} />
           </button>
         )}
       </footer>

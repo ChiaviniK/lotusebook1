@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { BookOpen, ChevronRight, ChevronDown, Menu, Lock } from 'lucide-react';
+import { BookOpen, ChevronRight, ChevronDown, Menu, Lock, Moon, Sun } from 'lucide-react';
 import styles from './Sidebar.module.css';
 
-const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSidebar, unlockedSections = [1] }) => {
+const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSidebar, unlockedSections = [1], theme, setTheme }) => {
   const [expandedChapter, setExpandedChapter] = useState(1);
 
   const toggleAccordion = (chapterId) => {
@@ -89,7 +89,19 @@ const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSide
           </ul>
         </nav>
         
-        <div className={styles.footer}>
+        <div className={styles.footer} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', paddingBottom: '2rem' }}>
+          <button 
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            style={{ 
+              display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', 
+              backgroundColor: 'var(--color-surface)', color: 'var(--color-text-main)', 
+              border: '1px solid var(--color-border)', borderRadius: '99px', cursor: 'pointer',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+            <span style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>{theme === 'light' ? 'Modo Escuro' : 'Modo Claro'}</span>
+          </button>
           <p>Para Todos © 2026</p>
         </div>
       </aside>

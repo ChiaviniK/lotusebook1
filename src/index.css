@@ -50,6 +50,20 @@
   --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+[data-theme='dark'] {
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-surface-hover: #334155;
+  --color-text-main: #f8fafc;
+  --color-text-muted: #cbd5e1;
+  --color-border: #334155;
+  --color-primary: #10b981;
+  --color-primary-dark: #34d399;
+  --color-secondary: #0ea5e9;
+  --color-earth: #8b5cf6;
+  --color-earth-light: #a78bfa;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
