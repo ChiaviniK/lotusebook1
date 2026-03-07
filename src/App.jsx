@@ -51,7 +51,7 @@ function App() {
       theme={theme}
       setTheme={setTheme}
     >
-      <DndProvider options={HTML5toTouch}>
+      <DndProvider backend={MultiBackend} options={HTML5toTouch}>
         <Chapter 
           chapter={activeChapter} 
           totalChapters={chapters.length} 
