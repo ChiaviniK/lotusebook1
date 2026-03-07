@@ -75,8 +75,8 @@ const ExcelMock = () => {
 
       <div className={styles.simContent}>
 
-        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', alignItems: 'center' }}>
-          <div style={{ backgroundColor: '#f1f5f9', border: '1px solid #cbd5e1', padding: '0.4rem 1rem', width: '80px', textAlign: 'center', fontWeight: 'bold' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ backgroundColor: '#f1f5f9', border: '1px solid #cbd5e1', padding: '0.4rem 1rem', minWidth: '80px', textAlign: 'center', fontWeight: 'bold' }}>
             {activeCell || 'Fx'}
           </div>
           <input 
@@ -97,8 +97,8 @@ const ExcelMock = () => {
           </button>
         </div>
 
-        <div style={{ overflowX: 'auto', border: '1px solid #cbd5e1', borderRadius: '4px', backgroundColor: '#f8fafc', padding: '0.5rem' }}>
-          <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+        <div style={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch', border: '1px solid #cbd5e1', borderRadius: '4px', backgroundColor: '#f8fafc', padding: '0.5rem' }}>
+          <table style={{ borderCollapse: 'collapse', width: '100%', minWidth: '400px' }}>
             <thead>
               <tr>
                 <th style={{ backgroundColor: '#e2e8f0', width: '30px', border: '1px solid #cbd5e1' }}></th>

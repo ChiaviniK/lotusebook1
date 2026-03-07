@@ -151,7 +151,7 @@
 
 @media (max-width: 768px) {
   .article {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-sm);
     border-radius: 0;
     box-shadow: none;
   }

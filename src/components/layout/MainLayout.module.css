@@ -66,6 +66,6 @@
   }
   
   .contentContainer {
-    padding: var(--spacing-lg) var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-xs);
   }
 }

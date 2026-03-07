@@ -37,7 +37,7 @@ const PandasDragDrop = () => {
 
       <div className={styles.simContent}>
         
-        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+        <div className={styles.responsiveFlex} style={{ alignItems: 'flex-start' }}>
           
           {/* Blocks Palette */}
           <div style={{ flex: 1, minWidth: '200px', backgroundColor: '#f8fafc', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
@@ -71,7 +71,7 @@ const PandasDragDrop = () => {
               <span>script.py</span>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontFamily: 'monospace' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontFamily: 'monospace', width: '100%', overflowX: 'auto', paddingBottom: '0.5rem' }}>
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <span style={{ color: '#858585', width: '20px' }}>1</span>

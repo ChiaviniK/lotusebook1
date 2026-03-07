@@ -80,7 +80,7 @@ const ChartBuilder = () => {
 
       <div className={styles.simContent}>
         
-        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+        <div className={styles.responsiveFlex}>
           
           {/* Painel de Variáveis e Controles */}
           <div style={{ flex: 1, minWidth: '250px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
