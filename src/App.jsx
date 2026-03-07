@@ -3,6 +3,10 @@ import MainLayout from './components/layout/MainLayout';
 import Chapter from './components/ebook/Chapter';
 import { chapters } from './data/chapters';
 
+import { DndProvider } from 'react-dnd';
+import { MultiBackend } from 'react-dnd-multi-backend';
+import { HTML5toTouch } from 'rdndmb-html5-to-touch';
+
 function App() {
   const [activeChapterId, setActiveChapterId] = useState(() => {
     const saved = localStorage.getItem('lotus_activeChapter');
@@ -47,13 +51,15 @@ function App() {
       theme={theme}
       setTheme={setTheme}
     >
-      <Chapter 
-        chapter={activeChapter} 
-        totalChapters={chapters.length} 
-        setActiveChapter={setActiveChapterId} 
-        unlockedSections={unlockedSections}
-        setUnlockedSections={setUnlockedSections}
-      />
+      <DndProvider options={HTML5toTouch}>
+        <Chapter 
+          chapter={activeChapter} 
+          totalChapters={chapters.length} 
+          setActiveChapter={setActiveChapterId} 
+          unlockedSections={unlockedSections}
+          setUnlockedSections={setUnlockedSections}
+        />
+      </DndProvider>
     </MainLayout>
   );
 }

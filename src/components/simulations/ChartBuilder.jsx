@@ -1,6 +1,42 @@
 import { useState } from 'react';
 import { BarChart, LineChart, PieChart, Activity, GripHorizontal, Play } from 'lucide-react';
+import { useDrag, useDrop } from 'react-dnd';
 import styles from './Simulations.module.css';
+
+const ItemTypes = {
+  VARIABLE: 'variable'
+};
+
+const DraggableVariable = ({ variable }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.VARIABLE,
+    item: { id: variable.id },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging()
+    })
+  }));
+
+  return (
+    <div 
+      ref={drag}
+      style={{ 
+        padding: '0.5rem 1rem', 
+        backgroundColor: variable.type === 'dimension' ? '#e0f2fe' : '#fce7f3', 
+        color: variable.type === 'dimension' ? '#0369a1' : '#be185d',
+        border: `1px solid ${variable.type === 'dimension' ? '#bae6fd' : '#fbcfe8'}`,
+        borderRadius: '999px',
+        fontSize: '0.8rem',
+        fontWeight: 'bold',
+        cursor: 'grab',
+        opacity: isDragging ? 0.5 : 1,
+        display: 'flex', alignItems: 'center', gap: '0.3rem'
+      }}
+    >
+      <GripHorizontal size={14} opacity={0.5} />
+      {variable.label}
+    </div>
+  );
+};
 
 const ChartBuilder = () => {
   const [xAxis, setXAxis] = useState(null);
@@ -16,23 +52,27 @@ const ChartBuilder = () => {
     { id: 'chuva', label: 'Pluviosidade (mm)', type: 'measure' }
   ];
 
-  const handleDropX = (e) => {
-    e.preventDefault();
-    const varId = e.dataTransfer.getData("varId");
-    setXAxis(variables.find(v => v.id === varId));
-    setIsRendered(false);
-  };
+  const [{ isOverX }, dropX] = useDrop(() => ({
+    accept: ItemTypes.VARIABLE,
+    drop: (item) => {
+      setXAxis(variables.find(v => v.id === item.id));
+      setIsRendered(false);
+    },
+    collect: (monitor) => ({
+      isOverX: !!monitor.isOver()
+    })
+  }));
 
-  const handleDropY = (e) => {
-    e.preventDefault();
-    const varId = e.dataTransfer.getData("varId");
-    setYAxis(variables.find(v => v.id === varId));
-    setIsRendered(false);
-  };
-
-  const handleDragStart = (e, varId) => {
-    e.dataTransfer.setData("varId", varId);
-  };
+  const [{ isOverY }, dropY] = useDrop(() => ({
+    accept: ItemTypes.VARIABLE,
+    drop: (item) => {
+      setYAxis(variables.find(v => v.id === item.id));
+      setIsRendered(false);
+    },
+    collect: (monitor) => ({
+      isOverY: !!monitor.isOver()
+    })
+  }));
 
   const handleRender = () => {
     if (xAxis && yAxis) setIsRendered(true);
@@ -89,25 +129,7 @@ const ChartBuilder = () => {
               <h4 style={{ fontSize: '0.9rem', marginBottom: '1rem', color: 'var(--color-text-muted)' }}>1. Arraste Variáveis</h4>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                 {variables.map(v => (
-                  <div 
-                    key={v.id}
-                    draggable
-                    onDragStart={(e) => handleDragStart(e, v.id)}
-                    style={{ 
-                      padding: '0.5rem 1rem', 
-                      backgroundColor: v.type === 'dimension' ? '#e0f2fe' : '#fce7f3', 
-                      color: v.type === 'dimension' ? '#0369a1' : '#be185d',
-                      border: `1px solid ${v.type === 'dimension' ? '#bae6fd' : '#fbcfe8'}`,
-                      borderRadius: '999px',
-                      fontSize: '0.8rem',
-                      fontWeight: 'bold',
-                      cursor: 'grab',
-                      display: 'flex', alignItems: 'center', gap: '0.3rem'
-                    }}
-                  >
-                    <GripHorizontal size={14} opacity={0.5} />
-                    {v.label}
-                  </div>
+                  <DraggableVariable key={v.id} variable={v} />
                 ))}
               </div>
             </div>
@@ -118,9 +140,8 @@ const ChartBuilder = () => {
               <div style={{ marginBottom: '1rem' }}>
                 <div style={{ fontSize: '0.8rem', fontWeight: 'bold', marginBottom: '0.3rem' }}>Eixo Y (Vertical)</div>
                 <div 
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={handleDropY}
-                  style={{ height: '40px', border: '2px dashed var(--color-border)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: yAxis ? '#f8fafc' : 'white', fontWeight: 'bold', color: yAxis ? 'var(--color-text-main)' : 'var(--color-text-muted)' }}
+                  ref={dropY}
+                  style={{ height: '40px', border: isOverY ? '2px dashed #3498db' : '2px dashed var(--color-border)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: yAxis ? '#f8fafc' : (isOverY ? '#f1f5f9' : 'white'), fontWeight: 'bold', color: yAxis ? 'var(--color-text-main)' : 'var(--color-text-muted)' }}
                 >
                   {yAxis ? yAxis.label : 'Solte Aqui...'}
                 </div>
@@ -129,9 +150,8 @@ const ChartBuilder = () => {
               <div>
                 <div style={{ fontSize: '0.8rem', fontWeight: 'bold', marginBottom: '0.3rem' }}>Eixo X (Horizontal)</div>
                 <div 
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={handleDropX}
-                  style={{ height: '40px', border: '2px dashed var(--color-border)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: xAxis ? '#f8fafc' : 'white', fontWeight: 'bold', color: xAxis ? 'var(--color-text-main)' : 'var(--color-text-muted)' }}
+                  ref={dropX}
+                  style={{ height: '40px', border: isOverX ? '2px dashed #3498db' : '2px dashed var(--color-border)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: xAxis ? '#f8fafc' : (isOverX ? '#f1f5f9' : 'white'), fontWeight: 'bold', color: xAxis ? 'var(--color-text-main)' : 'var(--color-text-muted)' }}
                 >
                   {xAxis ? xAxis.label : 'Solte Aqui...'}
                 </div>

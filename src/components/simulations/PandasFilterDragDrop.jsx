@@ -1,6 +1,69 @@
 import { useState } from 'react';
 import { Filter, CodeSquare } from 'lucide-react';
+import { useDrag, useDrop } from 'react-dnd';
 import styles from './Simulations.module.css';
+
+const ItemTypes = {
+  FILTER_BLOCK: 'filter_block'
+};
+
+const DraggableBlock = ({ block }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.FILTER_BLOCK,
+    item: { id: block.id },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging()
+    })
+  }));
+
+  return (
+    <div 
+      ref={drag}
+      style={{
+        backgroundColor: '#2d2d2d',
+        color: block.color,
+        padding: '1rem 1.5rem',
+        borderRadius: '4px',
+        fontFamily: 'monospace',
+        fontSize: '1rem',
+        cursor: 'grab',
+        opacity: isDragging ? 0.5 : 1,
+        border: '1px solid #444',
+        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+      }}
+    >
+      {block.text}
+    </div>
+  );
+};
+
+const DropSlot = ({ slots, slotId, blocks, onDrop, styleProps }) => {
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: ItemTypes.FILTER_BLOCK,
+    drop: (item) => onDrop(item.id, slotId),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver()
+    })
+  }));
+
+  return (
+    <div 
+      ref={drop}
+      style={{ 
+        ...styleProps, 
+        borderBottom: slots[slotId] ? 'none' : (isOver ? '2px dashed #3498db' : '2px dashed #555'),
+        backgroundColor: isOver && !slots[slotId] ? '#333' : 'transparent',
+        display: 'flex', alignItems: 'center', justifyContent: 'center' 
+      }}
+    >
+      {slots[slotId] && (
+        <span style={{ color: blocks.find(b=>b.id===slots[slotId])?.color }}>
+          {blocks.find(b=>b.id===slots[slotId])?.text}
+        </span>
+      )}
+    </div>
+  );
+};
 
 const PandasFilterDragDrop = () => {
   const [slots, setSlots] = useState({ s1: null, s2: null, s3: null, s4: null });
@@ -12,14 +75,8 @@ const PandasFilterDragDrop = () => {
     { id: 'val', text: "'Amazônia'", color: '#ce9178' }
   ];
 
-  const handleDrop = (e, slotId) => {
-    e.preventDefault();
-    const blockId = e.dataTransfer.getData("blockId");
+  const handleDrop = (blockId, slotId) => {
     setSlots(prev => ({ ...prev, [slotId]: blockId }));
-  };
-
-  const handleDragStart = (e, blockId) => {
-    e.dataTransfer.setData("blockId", blockId);
   };
 
   const isComplete = slots.s1 === 'df' && slots.s2 === 'col' && slots.s3 === 'equals' && slots.s4 === 'val';
@@ -43,63 +100,18 @@ const PandasFilterDragDrop = () => {
           
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', backgroundColor: '#1e1e1e', padding: '2rem', borderRadius: '8px', fontFamily: 'monospace', fontSize: '1.2rem', color: '#d4d4d4', overflowX: 'auto' }}>
             <span style={{ color: '#4fc1ff' }}>amazon_df</span> = <span style={{ color: '#9cdcfe' }}>df</span>[
-            
             {/* Slots for: df['bioma'] == 'Amazônia' */}
-            <div 
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={(e) => handleDrop(e, 's1')}
-              style={{ minWidth: '40px', height: '40px', borderBottom: slots.s1 ? 'none' : '2px dashed #555', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-              {slots.s1 ? <span style={{ color: blocks.find(b=>b.id===slots.s1)?.color }}>{blocks.find(b=>b.id===slots.s1)?.text}</span> : ''}
-            </div>
-
-            <div 
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={(e) => handleDrop(e, 's2')}
-              style={{ minWidth: '60px', height: '40px', borderBottom: slots.s2 ? 'none' : '2px dashed #555', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-              {slots.s2 ? <span style={{ color: blocks.find(b=>b.id===slots.s2)?.color }}>{blocks.find(b=>b.id===slots.s2)?.text}</span> : ''}
-            </div>
-
-            <div 
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={(e) => handleDrop(e, 's3')}
-              style={{ minWidth: '30px', height: '40px', borderBottom: slots.s3 ? 'none' : '2px dashed #555', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 0.5rem' }}
-            >
-              {slots.s3 ? <span style={{ color: blocks.find(b=>b.id===slots.s3)?.color }}>{blocks.find(b=>b.id===slots.s3)?.text}</span> : ''}
-            </div>
-
-            <div 
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={(e) => handleDrop(e, 's4')}
-              style={{ minWidth: '80px', height: '40px', borderBottom: slots.s4 ? 'none' : '2px dashed #555', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-              {slots.s4 ? <span style={{ color: blocks.find(b=>b.id===slots.s4)?.color }}>{blocks.find(b=>b.id===slots.s4)?.text}</span> : ''}
-            </div>
+            <DropSlot slots={slots} slotId="s1" blocks={blocks} onDrop={handleDrop} styleProps={{ minWidth: '40px', height: '40px' }} />
+            <DropSlot slots={slots} slotId="s2" blocks={blocks} onDrop={handleDrop} styleProps={{ minWidth: '60px', height: '40px' }} />
+            <DropSlot slots={slots} slotId="s3" blocks={blocks} onDrop={handleDrop} styleProps={{ minWidth: '30px', height: '40px', margin: '0 0.5rem' }} />
+            <DropSlot slots={slots} slotId="s4" blocks={blocks} onDrop={handleDrop} styleProps={{ minWidth: '80px', height: '40px' }} />
 
             ]
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             {blocks.map(b => (
-              <div 
-                key={b.id}
-                draggable
-                onDragStart={(e) => handleDragStart(e, b.id)}
-                style={{
-                  backgroundColor: '#2d2d2d',
-                  color: b.color,
-                  padding: '1rem 1.5rem',
-                  borderRadius: '4px',
-                  fontFamily: 'monospace',
-                  fontSize: '1rem',
-                  cursor: 'grab',
-                  border: '1px solid #444',
-                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                }}
-              >
-                {b.text}
-              </div>
+              <DraggableBlock key={b.id} block={b} />
             ))}
           </div>
 
