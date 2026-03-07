@@ -1,0 +1,125 @@
+.downloadButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.downloadButton:hover {
+  background-color: #059669;
+}
+
+.downloadButton:disabled {
+  background-color: var(--color-border);
+  cursor: not-allowed;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* PDF Template Elements */
+.pdfContainer {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1e293b;
+  background-color: white;
+  width: 100%;
+}
+
+.coverPage {
+  height: 250mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  page-break-after: always;
+}
+
+.coverContent {
+  text-align: center;
+  margin-top: 100mm;
+}
+
+.coverTitle {
+  font-size: 3rem;
+  color: #166534;
+  margin: 0;
+}
+
+.coverSubtitle {
+  font-size: 1.5rem;
+  color: #475569;
+  margin-top: 1rem;
+}
+
+.coverDate {
+  margin-top: 3rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.chapterPage {
+  page-break-before: always;
+  padding-top: 10mm;
+}
+
+.chapterTitle {
+  font-size: 2rem;
+  color: #166534;
+  border-bottom: 2px solid #22c55e;
+  padding-bottom: 0.5rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.chapterContent {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #334155;
+  margin-bottom: 2rem;
+}
+
+.subsection {
+  margin-bottom: 2rem;
+  page-break-inside: avoid;
+}
+
+.subTitle {
+  font-size: 1.4rem;
+  color: #0f172a;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+}
+
+.subContent {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #334155;
+  text-align: justify;
+}
+
+.simNote {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f1f5f9;
+  border-left: 4px solid #3b82f6;
+  font-size: 0.9rem;
+  color: #64748b;
+  font-style: italic;
+}

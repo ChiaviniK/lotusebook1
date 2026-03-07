@@ -23,6 +23,17 @@ import ChartBuilder from '../simulations/ChartBuilder';
 import PandasDragDrop from '../simulations/PandasDragDrop';
 import PandasFilterDragDrop from '../simulations/PandasFilterDragDrop';
 
+import PowerQueryFlow from '../simulations/PowerQueryFlow';
+import ExcelStats from '../simulations/ExcelStats';
+import CarbonScenario from '../simulations/CarbonScenario';
+import DashboardKpi from '../simulations/DashboardKpi';
+
+import AnatomyGrid from '../simulations/AnatomyGrid';
+import FormulaBasic from '../simulations/FormulaBasic';
+import StatsBasic from '../simulations/StatsBasic';
+import GraphBasic from '../simulations/GraphBasic';
+import ImportFlow from '../simulations/ImportFlow';
+
 import styles from './Chapter.module.css';
 
 // We now map simulations via string identifiers in the chapters.js
@@ -56,6 +67,17 @@ const getSimulation = (simName) => {
     case 'PandasDragDrop': return <PandasDragDrop />;
     case 'PandasFilterDragDrop': return <PandasFilterDragDrop />;
     
+    case 'AnatomyGrid': return <AnatomyGrid />;
+    case 'FormulaBasic': return <FormulaBasic />;
+    case 'StatsBasic': return <StatsBasic />;
+    case 'GraphBasic': return <GraphBasic />;
+    case 'ImportFlow': return <ImportFlow />;
+
+    case 'PowerQueryFlow': return <PowerQueryFlow />;
+    case 'ExcelStats': return <ExcelStats />;
+    case 'CarbonScenario': return <CarbonScenario />;
+    case 'DashboardKpi': return <DashboardKpi />;
+
     default: return null;
   }
 };

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { BookOpen, ChevronRight, ChevronDown, Menu, Lock, Moon, Sun } from 'lucide-react';
+import PdfGenerator from '../ebook/PdfGenerator';
 import styles from './Sidebar.module.css';
 
-const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSidebar, unlockedSections = [1], theme, setTheme }) => {
+const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSidebar, unlockedSections = [1], theme, setTheme, courses, activeCourseId, setActiveCourseId }) => {
   const [expandedChapter, setExpandedChapter] = useState(1);
 
   const toggleAccordion = (chapterId) => {
@@ -40,8 +41,37 @@ const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSide
           <div className={styles.iconWrapper}>
             <BookOpen size={24} className={styles.icon} />
           </div>
-          <h2 className={styles.title}>Análise de Dados Ambientais</h2>
+          <h2 className={styles.title}>Lotus Academy</h2>
         </div>
+
+        {courses && (
+          <div style={{ padding: '0 1rem 1rem 1rem', borderBottom: '1px solid var(--color-border)' }}>
+            <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--color-text-muted)', marginBottom: '0.5rem', display: 'block' }}>MÓDULO DE ENSINO</label>
+            <select 
+              value={activeCourseId} 
+              onChange={(e) => {
+                setActiveCourseId(e.target.value);
+                if (window.innerWidth <= 768) toggleSidebar();
+              }}
+              style={{
+                width: '100%',
+                padding: '0.5rem',
+                borderRadius: '6px',
+                border: '1px solid var(--color-border)',
+                backgroundColor: 'var(--color-surface)',
+                color: 'var(--color-text-main)',
+                fontSize: '0.9rem',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                outline: 'none'
+              }}
+            >
+              {courses.map(course => (
+                <option key={course.id} value={course.id}>{course.name}</option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <nav className={styles.nav}>
           <div className={styles.navSection}>Conteúdo Completo</div>
@@ -88,7 +118,13 @@ const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSide
             )})}
           </ul>
         </nav>
-        
+        <div style={{ padding: '0 1rem 1rem 1rem' }}>
+          <PdfGenerator 
+            chapters={chapters} 
+            courseName={courses?.find(c => c.id === activeCourseId)?.name || "Lotus E-book"} 
+          />
+        </div>
+
         <div className={styles.footer} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', paddingBottom: '2rem' }}>
           <button 
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
