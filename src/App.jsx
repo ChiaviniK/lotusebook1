@@ -6,6 +6,7 @@ import { excelChapters } from './data/excelChapters';
 import { pythonChapters } from './data/pythonChapters';
 import { carbonChapters } from './data/carbonChapters';
 import { forestCarbonChapters } from './data/forestCarbonChapters';
+import { lei15042Chapters } from './data/lei15042Chapters';
 import Login from './components/auth/Login';
 
 import { DndProvider } from 'react-dnd';
@@ -30,6 +31,7 @@ function App() {
     if (activeCourseId === 'python_basics') return pythonChapters;
     if (activeCourseId === 'carbon_markets') return carbonChapters;
     if (activeCourseId === 'forest_carbon') return forestCarbonChapters;
+    if (activeCourseId === 'lei15042') return lei15042Chapters;
     return dataScienceChapters;
   };
   const currentChaptersObj = getActiveChaptersObj();
@@ -132,7 +134,8 @@ function App() {
     { id: 'excel_ambiente', name: { pt: 'Excel Ambiental: A Física dos Dados', en: 'Environmental Excel: The Physics of Data' } },
     { id: 'python_basics', name: { pt: 'Python Ambiental: Automação Absoluta', en: 'Environmental Python: Absolute Automation' } },
     { id: 'carbon_markets', name: { pt: 'Mercado de Carbono: Ouro Verde', en: 'Carbon Markets: Green Gold' } },
-    { id: 'forest_carbon', name: { pt: 'Créditos e Iniciativas de Algoritmo Florestal', en: 'Forest Carbon Credits and Initiatives' } }
+    { id: 'forest_carbon', name: { pt: 'Créditos e Iniciativas de Algoritmo Florestal', en: 'Forest Carbon Credits and Initiatives' } },
+    { id: 'lei15042', name: { pt: 'Lei nº 15.042 (SBCE): O Marco Regulatório', en: 'Law 15.042 (SBCE): The Regulatory Framework' } }
   ];
 
   const handleLoginSuccess = (profile) => {

@@ -70,6 +70,11 @@ import DroneForestScanner from '../simulations/DroneForestScanner';
 import JurisdictionalNestingSim from '../simulations/JurisdictionalNestingSim';
 import PortfolioAllocatorSim from '../simulations/PortfolioAllocatorSim';
 
+// Phase 17 - SBCE Course (Lei 15.042)
+import EmissionsThresholdChecker from '../simulations/EmissionsThresholdChecker';
+import AllocationMarketSim from '../simulations/AllocationMarketSim';
+import PenaltyCalculator from '../simulations/PenaltyCalculator';
+
 import TeacherAvatar from '../layout/TeacherAvatar';
 import { getText } from '../../utils/i18n';
 import styles from './Chapter.module.css';
@@ -168,6 +173,14 @@ const getSimulation = (simName) => {
       return <JurisdictionalNestingSim />;
     case 'portfolio_allocator_sim':
       return <PortfolioAllocatorSim />;
+      
+    // SBCE (Phase 17)
+    case 'emissions_threshold_checker':
+      return <EmissionsThresholdChecker />;
+    case 'allocation_market_sim':
+      return <AllocationMarketSim />;
+    case 'penalty_calculator_sim':
+      return <PenaltyCalculator />;
         
     default: return null;
   }
