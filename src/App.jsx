@@ -4,6 +4,7 @@ import Chapter from './components/ebook/Chapter';
 import { chapters as dataScienceChapters } from './data/chapters';
 import { excelChapters } from './data/excelChapters';
 import { pythonChapters } from './data/pythonChapters';
+import { carbonChapters } from './data/carbonChapters';
 import Login from './components/auth/Login';
 
 import { DndProvider } from 'react-dnd';
@@ -26,6 +27,7 @@ function App() {
   const getActiveChaptersObj = () => {
     if (activeCourseId === 'excel_ambiente') return excelChapters;
     if (activeCourseId === 'python_basics') return pythonChapters;
+    if (activeCourseId === 'carbon_markets') return carbonChapters;
     return dataScienceChapters;
   };
   const currentChaptersObj = getActiveChaptersObj();
@@ -118,7 +120,8 @@ function App() {
   const courses = [
     { id: 'data_science', name: 'Ciência de Dados Ambientais' },
     { id: 'excel_ambiente', name: 'Excel Ambiental: A Física dos Dados' },
-    { id: 'python_basics', name: 'Python Ambiental: Automação Absoluta' }
+    { id: 'python_basics', name: 'Python Ambiental: Automação Absoluta' },
+    { id: 'carbon_markets', name: 'Mercado de Carbono: Ouro Verde' }
   ];
 
   const handleLoginSuccess = (profile) => {

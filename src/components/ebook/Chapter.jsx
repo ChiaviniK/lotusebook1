@@ -49,6 +49,15 @@ import TimeTrendPlot from '../simulations/TimeTrendPlot';
 import CorrelationHeatmap from '../simulations/CorrelationHeatmap';
 import SpatialPlot from '../simulations/SpatialPlot';
 import BufferIntersect from '../simulations/BufferIntersect';
+import KyotoTimeline from '../simulations/KyotoTimeline';
+import CapAndTradeSim from '../simulations/CapAndTradeSim';
+import CBEWallet from '../simulations/CBEWallet';
+import BlockchainMRV from '../simulations/BlockchainMRV';
+import ReddPlusCalc from '../simulations/ReddPlusCalc';
+import TechCarbonCapture from '../simulations/TechCarbonCapture';
+import GreenwashingDetector from '../simulations/GreenwashingDetector';
+import CarbonPriceChart from '../simulations/CarbonPriceChart';
+import CarbonCareerPath from '../simulations/CarbonCareerPath';
 
 import styles from './Chapter.module.css';
 
@@ -107,7 +116,26 @@ const getSimulation = (simName) => {
     case 'TimeTrendPlot': return <TimeTrendPlot />;
     case 'CorrelationHeatmap': return <CorrelationHeatmap />;
     case 'SpatialPlot': return <SpatialPlot />;
-    case 'BufferIntersect': return <BufferIntersect />;
+    case 'buffer_intersect':
+      return <BufferIntersect />;
+    case 'kyoto_timeline':
+      return <KyotoTimeline />;
+    case 'cap_and_trade':
+      return <CapAndTradeSim />;
+    case 'cbe_wallet':
+      return <CBEWallet />;
+    case 'blockchain_mrv':
+      return <BlockchainMRV />;
+    case 'redd_calc':
+      return <ReddPlusCalc />;
+    case 'tech_dac':
+      return <TechCarbonCapture />;
+    case 'greenwash_detector':
+      return <GreenwashingDetector />;
+    case 'carbon_price':
+      return <CarbonPriceChart />;
+    case 'career_path':
+      return <CarbonCareerPath />;
 
     default: return null;
   }
