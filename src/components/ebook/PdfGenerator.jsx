@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react';
 import html2pdf from 'html2pdf.js/dist/html2pdf.bundle.min.js';
 import { Download, Loader2 } from 'lucide-react';
+import { getText } from '../../utils/i18n';
 import styles from './PdfGenerator.module.css';
 
-const PdfGenerator = ({ chapters, courseName }) => {
+const PdfGenerator = ({ chapters, courseName, language = 'pt' }) => {
   const contentRef = useRef(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -68,24 +69,26 @@ const PdfGenerator = ({ chapters, courseName }) => {
           </div>
 
           {/* Chapters */}
-          {chapters.map((chapter) => (
+          {chapters && chapters.map((chapter) => (
             <div key={chapter.id} className={styles.chapterPage}>
-              <h1 className={styles.chapterTitle}>Capítulo {chapter.id}: {chapter.title}</h1>
+              <h1 className={styles.chapterTitle}>Capítulo {chapter.id}: {getText(chapter.title, language)}</h1>
               
               {chapter.content && (
                 <div 
                   className={styles.chapterContent} 
-                  dangerouslySetInnerHTML={{ __html: chapter.content.replace(/\n/g, '<br/>') }}
+                  dangerouslySetInnerHTML={{ __html: getText(chapter.content, language).replace(/\n/g, '<br/>') }}
                 />
               )}
 
               {chapter.subsections && chapter.subsections.map((sub) => (
                 <div key={sub.id} className={styles.subsection}>
-                  <h2 className={styles.subTitle}>{sub.id} {sub.title}</h2>
-                  <div 
-                    className={styles.subContent}
-                    dangerouslySetInnerHTML={{ __html: sub.content.replace(/\n/g, '<br/>') }} 
-                  />
+                  <h2 className={styles.subTitle}>{sub.id} {getText(sub.title, language)}</h2>
+                  {sub.content && (
+                    <div 
+                      className={styles.subContent}
+                      dangerouslySetInnerHTML={{ __html: getText(sub.content, language).replace(/\n/g, '<br/>') }} 
+                    />
+                  )}
                   {sub.simulation && sub.simulation !== "Placeholder" && (
                     <div className={styles.simNote}>
                        [Neste ponto do E-book online, há uma simulação interativa: {sub.simulation}. Acesse a plataforma Lotus Academy para vivenciar a experiência prática em laboratório.]

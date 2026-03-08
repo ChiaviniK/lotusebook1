@@ -2,6 +2,7 @@ export const chapters = [
   {
     id: 1,
     title: "Introdução: O Poder dos Dados na Sustentabilidade",
+    avatarTip: { pt: "Vamos começar! Os dados são a nova moeda da sustentabilidade corporativa.", en: "Let's start! Data is the new currency of corporate sustainability." },
     subsections: [
       {
         id: "1.1",
@@ -20,6 +21,7 @@ export const chapters = [
   {
     id: 2,
     title: "Onde Estão os Dados? (Fontes Ambientais)",
+    avatarTip: { pt: "Lembre-se: APIs governamentais são essenciais para cruzar dados precisos e gratuitos.", en: "Remember: Government APIs are essential for free and accurate data." },
     subsections: [
       {
         id: "2.1",
@@ -44,6 +46,7 @@ export const chapters = [
   {
     id: 3,
     title: "Arrumando a Casa: Limpeza de Dados",
+    avatarTip: { pt: "A limpeza consome 80% do tempo do analista. Padronize sempre as colunas primeiro!", en: "Data cleaning consumes 80% of an analyst's time. Always standardize!" },
     subsections: [
       {
         id: "3.1",
@@ -62,6 +65,7 @@ export const chapters = [
   {
     id: 4,
     title: "Ferramentas 'Low-Code' e 'No-Code'",
+    avatarTip: { pt: "Muitas vezes, ferramentas visuais de Pipeline aceleram o processo sem precisar de código complexo.", en: "Visual tools often speed up the process without needing a single line of code." },
     subsections: [
       {
         id: "4.1",
@@ -86,6 +90,7 @@ export const chapters = [
   {
     id: 5,
     title: "Estatística Ambiental Descomplicada",
+    avatarTip: { pt: "Estatística não é apenas intuição matemática. Use p-valor e R² para provar suas teses de impacto.", en: "Statistics isn't just intuition. Use p-value and R² to prove your environmental theses." },
     subsections: [
       {
         id: "5.1",
@@ -104,6 +109,7 @@ export const chapters = [
   {
     id: 6,
     title: "Visualização de Dados e Storytelling",
+    avatarTip: { pt: "Um gráfico confuso esconde a verdade. Escolha as cores certas pensando também nos daltônicos.", en: "A bad chart hides the truth. Choose colors with accessibility in mind." },
     subsections: [
       {
         id: "6.1",
@@ -134,6 +140,7 @@ export const chapters = [
   {
     id: 7,
     title: "O Próximo Passo: IA e Automação",
+    avatarTip: { pt: "Modelos preditivos baseados em Árvores de Decisão (Random Forest) revolucionaram o monitoramento florestal por satélite.", en: "Predictive tree models have revolutionized remote sensing." },
     subsections: [
       {
         id: "7.1",
@@ -152,6 +159,7 @@ export const chapters = [
   {
     id: 8,
     title: "Módulo Especial: Python Básico para Dados",
+    avatarTip: { pt: "Bem-vindo ao poder real de processamento! A biblioteca Pandas vai mudar a forma como você enxerga colunas enormes.", en: "Welcome to Python! Pandas will change the way you look at huge spreadsheets." },
     subsections: [
       {
         id: "8.1",

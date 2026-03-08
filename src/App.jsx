@@ -5,6 +5,7 @@ import { chapters as dataScienceChapters } from './data/chapters';
 import { excelChapters } from './data/excelChapters';
 import { pythonChapters } from './data/pythonChapters';
 import { carbonChapters } from './data/carbonChapters';
+import { forestCarbonChapters } from './data/forestCarbonChapters';
 import Login from './components/auth/Login';
 
 import { DndProvider } from 'react-dnd';
@@ -28,6 +29,7 @@ function App() {
     if (activeCourseId === 'excel_ambiente') return excelChapters;
     if (activeCourseId === 'python_basics') return pythonChapters;
     if (activeCourseId === 'carbon_markets') return carbonChapters;
+    if (activeCourseId === 'forest_carbon') return forestCarbonChapters;
     return dataScienceChapters;
   };
   const currentChaptersObj = getActiveChaptersObj();
@@ -60,6 +62,14 @@ function App() {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('lotus_theme') || 'light';
   });
+
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem('lotus_language') || 'pt';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('lotus_language', language);
+  }, [language]);
 
   // Effect to switch course data in memory when activeCourseId changes
   useEffect(() => {
@@ -118,10 +128,11 @@ function App() {
   }, [activeChapterId, activeCourseId]);
 
   const courses = [
-    { id: 'data_science', name: 'Ciência de Dados Ambientais' },
-    { id: 'excel_ambiente', name: 'Excel Ambiental: A Física dos Dados' },
-    { id: 'python_basics', name: 'Python Ambiental: Automação Absoluta' },
-    { id: 'carbon_markets', name: 'Mercado de Carbono: Ouro Verde' }
+    { id: 'data_science', name: { pt: 'Ciência de Dados Ambientais', en: 'Environmental Data Science' } },
+    { id: 'excel_ambiente', name: { pt: 'Excel Ambiental: A Física dos Dados', en: 'Environmental Excel: The Physics of Data' } },
+    { id: 'python_basics', name: { pt: 'Python Ambiental: Automação Absoluta', en: 'Environmental Python: Absolute Automation' } },
+    { id: 'carbon_markets', name: { pt: 'Mercado de Carbono: Ouro Verde', en: 'Carbon Markets: Green Gold' } },
+    { id: 'forest_carbon', name: { pt: 'Créditos e Iniciativas de Algoritmo Florestal', en: 'Forest Carbon Credits and Initiatives' } }
   ];
 
   const handleLoginSuccess = (profile) => {
@@ -155,6 +166,8 @@ function App() {
       setActiveCourseId={setActiveCourseId}
       userProfile={userProfile}
       onLogout={handleLogout}
+      language={language}
+      setLanguage={setLanguage}
     >
       <DndProvider backend={MultiBackend} options={HTML5toTouch}>
         <Chapter 
@@ -163,6 +176,7 @@ function App() {
           setActiveChapter={setActiveChapterId} 
           unlockedSections={unlockedSections}
           setUnlockedSections={setUnlockedSections}
+          language={language}
         />
       </DndProvider>
     </MainLayout>

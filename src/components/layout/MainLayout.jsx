@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import Sidebar from './Sidebar';
 import styles from './MainLayout.module.css';
+import { getText } from '../../utils/i18n';
 
 const MainLayout = ({ 
   children, chapters, activeChapter, setActiveChapter, 
-  unlockedSections, theme, setTheme, courses, activeCourseId, setActiveCourseId, userProfile, onLogout 
+  unlockedSections, theme, setTheme, courses, activeCourseId, setActiveCourseId, userProfile, onLogout,
+  language, setLanguage
 }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -29,6 +31,8 @@ const MainLayout = ({
         setActiveCourseId={setActiveCourseId}
         userProfile={userProfile}
         onLogout={onLogout}
+        language={language}
+        setLanguage={setLanguage}
       />
       
       <main className={`${styles.main} ${isSidebarOpen ? styles.sidebarOpen : ''}`}>
@@ -36,7 +40,7 @@ const MainLayout = ({
           <button onClick={toggleSidebar} className={styles.menuButton}>
             <Menu size={24} />
           </button>
-          <span className={styles.mobileTitle}>E-book de Dados Ambientais</span>
+          <span className={styles.mobileTitle}>{getText({ pt: 'E-book Ambiental', en: 'Environmental E-book' }, language)}</span>
         </header>
         
         <div className={styles.contentContainer}>

@@ -59,6 +59,19 @@ import GreenwashingDetector from '../simulations/GreenwashingDetector';
 import CarbonPriceChart from '../simulations/CarbonPriceChart';
 import CarbonCareerPath from '../simulations/CarbonCareerPath';
 
+// Phase 15 - Forest Carbon Credits
+import CarbonCycleDragDrop from '../simulations/CarbonCycleDragDrop';
+import BaselineBuilder from '../simulations/BaselineBuilder';
+import ForestRiskMatrix from '../simulations/ForestRiskMatrix';
+import LidarPointScanner from '../simulations/LidarPointScanner';
+import MRVDashboardSim from '../simulations/MRVDashboardSim';
+import CommunityBenefitAllocator from '../simulations/CommunityBenefitAllocator';
+import DroneForestScanner from '../simulations/DroneForestScanner';
+import JurisdictionalNestingSim from '../simulations/JurisdictionalNestingSim';
+import PortfolioAllocatorSim from '../simulations/PortfolioAllocatorSim';
+
+import TeacherAvatar from '../layout/TeacherAvatar';
+import { getText } from '../../utils/i18n';
 import styles from './Chapter.module.css';
 
 // We now map simulations via string identifiers in the chapters.js
@@ -136,12 +149,31 @@ const getSimulation = (simName) => {
       return <CarbonPriceChart />;
     case 'career_path':
       return <CarbonCareerPath />;
-
+    // Forest Carbon (Phase 15)
+    case 'carbon_cycle_drag_drop':
+      return <CarbonCycleDragDrop />;
+    case 'baseline_builder':
+      return <BaselineBuilder />;
+    case 'forest_risk_matrix':
+      return <ForestRiskMatrix />;
+    case 'lidar_point_scanner':
+      return <LidarPointScanner />;
+    case 'mrv_dashboard_sim':
+      return <MRVDashboardSim />;
+    case 'community_benefit_allocator':
+      return <CommunityBenefitAllocator />;
+    case 'drone_forest_scanner':
+      return <DroneForestScanner />;
+    case 'jurisdictional_nesting_sim':
+      return <JurisdictionalNestingSim />;
+    case 'portfolio_allocator_sim':
+      return <PortfolioAllocatorSim />;
+        
     default: return null;
   }
 };
 
-const Chapter = ({ chapter, totalChapters, setActiveChapter, unlockedSections = [1], setUnlockedSections }) => {
+const Chapter = ({ chapter, totalChapters, setActiveChapter, unlockedSections = [1], setUnlockedSections, language }) => {
   if (!chapter) return null;
 
   const isFirst = chapter.id === 1;
@@ -204,7 +236,7 @@ const Chapter = ({ chapter, totalChapters, setActiveChapter, unlockedSections = 
     <article className={styles.article}>
       <header className={styles.header}>
         <div className={styles.meta}>
-          <span className={styles.chapterLabel}>Capítulo {chapter.id}</span>
+          <span className={styles.chapterLabel}>{getText({ pt: 'Capítulo', en: 'Chapter' }, language)} {chapter.id}</span>
           <div className={styles.actions}>
             <button className={styles.actionBtn} aria-label="Imprimir capítulo">
               <Printer size={18} />
@@ -214,9 +246,12 @@ const Chapter = ({ chapter, totalChapters, setActiveChapter, unlockedSections = 
             </button>
           </div>
         </div>
-        <h1 className={styles.title}>{chapter.title}</h1>
+        <h1 className={styles.title}>{getText(chapter.title, language)}</h1>
       </header>
 
+      {/* Flutuante: Professor Virtual */}
+      {chapter.avatarTip && <TeacherAvatar tip={getText(chapter.avatarTip, language)} language={language} />}
+      
       <div className={styles.content}>
         {/* Agora iterando pelos subsections/subtópicos */}
         {chapter.subsections && chapter.subsections.map((sub) => (
@@ -233,17 +268,30 @@ const Chapter = ({ chapter, totalChapters, setActiveChapter, unlockedSections = 
                 {sub.id}
               </span>
               <h2 className={styles.subtitle} style={{ margin: 0, borderLeft: 'none', paddingLeft: 0 }}>
-                {sub.title}
+                {getText(sub.title, language)}
               </h2>
             </div>
 
             <div className={styles.textContainer}>
-              {sub.content.split('\n').map((paragraph, pIndex) => (
+              {getText(sub.content, language).split('\n').map((paragraph, pIndex) => (
                 <p key={pIndex} className={styles.paragraph}>
                   {paragraph}
                 </p>
               ))}
             </div>
+
+            {/* Embed Video if present */}
+            {sub.videoUrl && (
+              <div className={styles.videoContainer} style={{ margin: '2rem 0', position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}>
+                <iframe 
+                  src={sub.videoUrl} 
+                  title={`Video - ${getText(sub.title, language)}`}
+                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen
+                ></iframe>
+              </div>
+            )}
 
             {/* Simulação específica deste subcapítulo injetada nativamente */}
             {sub.simulation && (
@@ -264,11 +312,11 @@ const Chapter = ({ chapter, totalChapters, setActiveChapter, unlockedSections = 
           className={`${styles.navBtn} ${isFirst ? styles.disabled : ''}`}
         >
           <ChevronLeft size={20} />
-          <span>Capítulo Anterior</span>
+          <span>{getText({ pt: 'Capítulo Anterior', en: 'Previous Chapter' }, language)}</span>
         </button>
 
         <span className={styles.progress}>
-          {chapter.id} de {totalChapters}
+          {chapter.id} {getText({ pt: 'de', en: 'of' }, language)} {totalChapters}
         </span>
 
         {isLockedNext ? (
@@ -277,7 +325,7 @@ const Chapter = ({ chapter, totalChapters, setActiveChapter, unlockedSections = 
             className={styles.navBtn}
             style={{ backgroundColor: 'var(--color-secondary)', color: 'white', border: 'none', padding: '0.75rem 1.5rem' }}
           >
-            <span style={{ fontWeight: 'bold' }}>Concluir e Desbloquear</span>
+            <span style={{ fontWeight: 'bold' }}>{getText({ pt: 'Concluir e Desbloquear', en: 'Complete and Unlock' }, language)}</span>
             <Unlock size={20} />
           </button>
         ) : (
@@ -286,7 +334,7 @@ const Chapter = ({ chapter, totalChapters, setActiveChapter, unlockedSections = 
             className={`${styles.navBtn}`}
             style={{ backgroundColor: 'var(--color-primary)', color: 'white', border: 'none' }}
           >
-            <span>Finalizar Curso</span>
+            <span>{getText({ pt: 'Finalizar Curso', en: 'Finish Course' }, language)}</span>
             <Award size={20} />
           </button>
         )}

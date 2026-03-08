@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { BookOpen, ChevronRight, ChevronDown, Menu, Lock, Moon, Sun, User, LogOut } from 'lucide-react';
 import PdfGenerator from '../ebook/PdfGenerator';
 import styles from './Sidebar.module.css';
-
-const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSidebar, unlockedSections = [1], theme, setTheme, courses, activeCourseId, setActiveCourseId, userProfile, onLogout }) => {
+import { getText } from '../../utils/i18n';
+import { BookOpen, ChevronRight, ChevronDown, Menu, Lock, Moon, Sun, User, LogOut } from 'lucide-react';
+const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSidebar, unlockedSections = [1], theme, setTheme, courses, activeCourseId, setActiveCourseId, userProfile, onLogout, language, setLanguage }) => {
   const [expandedChapter, setExpandedChapter] = useState(1);
 
   const toggleAccordion = (chapterId) => {
@@ -46,7 +46,9 @@ const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSide
 
         {courses && (
           <div style={{ padding: '0 1rem 1rem 1rem', borderBottom: '1px solid var(--color-border)' }}>
-            <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--color-text-muted)', marginBottom: '0.5rem', display: 'block' }}>MÓDULO DE ENSINO</label>
+            <label style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--color-text-muted)', marginBottom: '0.5rem', display: 'block' }}>
+              {getText({ pt: 'MÓDULO DE ENSINO', en: 'LEARNING MODULE' }, language)}
+            </label>
             <select 
               value={activeCourseId} 
               onChange={(e) => {
@@ -67,14 +69,14 @@ const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSide
               }}
             >
               {courses.map(course => (
-                <option key={course.id} value={course.id}>{course.name}</option>
+                <option key={course.id} value={course.id}>{getText(course.name, language)}</option>
               ))}
             </select>
           </div>
         )}
 
         <nav className={styles.nav}>
-          <div className={styles.navSection}>Conteúdo Completo</div>
+          <div className={styles.navSection}>{getText({ pt: 'Conteúdo Completo', en: 'Full Content' }, language)}</div>
           <ul className={styles.chapterList}>
             {chapters.map((chapter) => {
               const isLocked = !unlockedSections.includes(chapter.id);
@@ -88,7 +90,7 @@ const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSide
                   <span className={styles.chapterNumber} style={{ backgroundColor: isLocked ? 'var(--color-border)' : '' }}>
                     {isLocked ? <Lock size={12} /> : chapter.id}
                   </span>
-                  <span className={styles.chapterTitle}>{chapter.title}</span>
+                  <span className={styles.chapterTitle}>{getText(chapter.title, language)}</span>
                   {expandedChapter === chapter.id ? (
                     <ChevronDown size={16} className={styles.accordionIcon} />
                   ) : (
@@ -108,7 +110,7 @@ const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSide
                           onClick={() => handleSubNavigate(chapter.id, sub.id)}
                         >
                           <span className={styles.subNumber}>{sub.id}</span>
-                          <span className={styles.subTitle}>{sub.title}</span>
+                          <span className={styles.subTitle}>{getText(sub.title, language)}</span>
                         </button>
                       </li>
                     ))}
@@ -121,7 +123,8 @@ const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSide
         <div style={{ padding: '0 1rem 1rem 1rem' }}>
           <PdfGenerator 
             chapters={chapters} 
-            courseName={courses?.find(c => c.id === activeCourseId)?.name || "Lotus E-book"} 
+            courseName={getText(courses?.find(c => c.id === activeCourseId)?.name || { pt: "Lotus E-book", en: "Lotus E-book" }, language)} 
+            language={language}
           />
         </div>
 
@@ -140,10 +143,24 @@ const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSide
                </div>
                
                <button onClick={onLogout} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.4rem', backgroundColor: 'transparent', border: '1px solid #ef4444', color: '#ef4444', borderRadius: '6px', fontSize: '0.8rem', cursor: 'pointer', transition: 'background-color 0.2s' }}>
-                  <LogOut size={14} /> Desconectar
+                  <LogOut size={14} /> {getText({ pt: 'Desconectar', en: 'Sign Out' }, language)}
                </button>
             </div>
           )}
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+             <button 
+              onClick={() => setLanguage(language === 'pt' ? 'en' : 'pt')}
+              style={{ 
+                display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', 
+                backgroundColor: 'var(--color-surface)', color: 'var(--color-text-main)', 
+                border: '1px solid var(--color-border)', borderRadius: '99px', cursor: 'pointer',
+                transition: 'all 0.3s ease', flex: 1, justifyContent: 'center'
+              }}
+             >
+                <span style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>{language === 'pt' ? '🇺🇸 English' : '🇧🇷 Português'}</span>
+             </button>
+          </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <button 
@@ -156,7 +173,7 @@ const Sidebar = ({ chapters, activeChapter, setActiveChapter, isOpen, toggleSide
               }}
             >
               {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
-              <span style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>{theme === 'light' ? 'Escuro' : 'Claro'}</span>
+              <span style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>{theme === 'light' ? getText({ pt: 'Escuro', en: 'Dark' }, language) : getText({ pt: 'Claro', en: 'Light' }, language)}</span>
             </button>
             <p style={{ margin: 0, fontSize: '0.75rem' }}>Lotus © 2026</p>
           </div>

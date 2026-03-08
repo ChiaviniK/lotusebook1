@@ -2,6 +2,7 @@ export const excelChapters = [
   {
     id: 1,
     title: "Fundamentos do Ambiente de Planilhas",
+    avatarTip: { pt: "Células, colunas e linhas são o seu novo ecossistema. Vamos plantar fórmulas!", en: "Cells, columns, and rows are your new ecosystem. Let's plant formulas!" },
     subsections: [
       {
         id: "1.1",
@@ -38,6 +39,7 @@ export const excelChapters = [
   {
     id: 2,
     title: "Excel Básico: A Entropia da Planilha",
+    avatarTip: { pt: "Trate seus dados como trata a natureza: limpe a sujeira antes de construir algo em cima.", en: "Treat your data like you treat nature: clean up the mess before building on top." },
     subsections: [
       {
         id: "2.1",
@@ -50,6 +52,7 @@ export const excelChapters = [
   {
     id: 3,
     title: "Organização e Higiene de Dados",
+    avatarTip: { pt: "O Power Query é a máquina de reciclagem perfeita. Ele pega tabelas deformadas e devolve ouro auditable.", en: "Power Query is the perfect recycling machine. It takes deformed tables and returns auditable gold." },
     subsections: [
       {
         id: "3.1",
@@ -74,6 +77,7 @@ export const excelChapters = [
   {
     id: 4,
     title: "Estatística Ambiental sem Traumas",
+    avatarTip: { pt: "Média esconde desastres. A Formatação Condicional para Outliers revela o crime ambiental.", en: "Averages hide disasters. Conditional Formatting for Outliers reveals the environmental crime." },
     subsections: [
       {
         id: "4.1",
@@ -98,6 +102,7 @@ export const excelChapters = [
   {
     id: 5,
     title: "O Coração do Analista (Emissões e ESG)",
+    avatarTip: { pt: "O cruzamento de PROCV com a escala do GHG Protocol é o ganha-pão do analista ESG.", en: "The intersection of VLOOKUP with the GHG Protocol table is the ESG analyst's bread and butter." },
     subsections: [
       {
         id: "5.1",
@@ -122,6 +127,7 @@ export const excelChapters = [
   {
     id: 6,
     title: "Visualização e Storytelling no Excel",
+    avatarTip: { pt: "Tabelas Dinâmicas transformam centenas de registros chatos em Dashboards Ambientais Vivos.", en: "Pivot Tables turn hundreds of boring records into Living Environmental Dashboards." },
     subsections: [
       {
         id: "6.1",

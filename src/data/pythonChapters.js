@@ -2,6 +2,7 @@ export const pythonChapters = [
   {
     id: 1,
     title: "O 'Setup' do Analista Ambiental",
+    avatarTip: { pt: "Cansado do Excel travando com planilhas grandes? O Python vai resolver sua vida.", en: "Tired of Excel crashing with large spreadsheets? Python will solve your life." },
     content: "Instalar Python no Windows da empresa geralmente requer permissões de TI irritantes que levam semanas. Para evitar a burocracia e pular direto para a análise, O Analista Moderno usa a Nuvem.\n\nNós usamos Plataformas como o Google Colab ou Kaggle: Máquinas alugadas gratuitas do Google que rodam diretamente no seu Navegador, com toda a potência de processamento instalada. Você abre uma aba, digita o código, e tem resposta instantânea.",
     subsections: [
       {
@@ -27,6 +28,7 @@ export const pythonChapters = [
   {
     id: 2,
     title: "O Canivete Suíço (Biblioteca Pandas)",
+    avatarTip: { pt: "Pandas é o motor V8 da Data Science. Com ele você trata milhões de árvores em milissegundos.", en: "Pandas is the V8 engine of Data Science. With it, you process millions of trees in milliseconds." },
     content: "Você aprendeu as variáveis puras do Python. Lindo. Mas planilhas florestais com 30 anos de dados florestais têm milhões de cédulas. O Python Base engasgaria.\n\nAqui, entra o grande Matador: a biblioteca PANDAS (Python Data Analysis). Importamos ela no formato `import pandas as pd`. Ela adiciona a super-classe estrutural chamada 'DataFrame'. Um DataFrame não é uma tabela... É um banco de dados que voa com aceleração baseada em Vetores matemáticos de Memória RAM.",
     subsections: [
       {
@@ -52,6 +54,7 @@ export const pythonChapters = [
   {
     id: 3,
     title: "Visualização Científica Elegante (Seaborn)",
+    avatarTip: { pt: "Transforme números frios em heatmaps escaldantes que convencem qualquer diretoria.", en: "Turn cold numbers into blazing heatmaps that convince any board of directors." },
     content: "Quando você termina seus filtros com a força de manipulação do PANDAS, você terá uma tabela condensada perfeita. Mas, ninguém lê tabelas no Linkedin ou em Jornais Acadêmicos, as pessoas leem Figuras.\n\nAqui usaremos as potentes bibliotecas de plotagem Vetorial `Matplotlib` e a sua prima estética de alto padrão `Seaborn`. Esqueça os Gráficos Pizza sem graça do Word, você criará arquiteturas visuais que contam verdades irrefutáveis do meio ambiente.",
     subsections: [
       {
@@ -77,6 +80,7 @@ export const pythonChapters = [
   {
     id: 4,
     title: "Introdução Espacial (Geopandas)",
+    avatarTip: { pt: "Dados sem mapas são cegos. O Geopandas cruza coordenadas GPS mais rápido que o QGIS.", en: "Data without maps is blind. Geopandas crosses GPS coordinates faster than QGIS." },
     content: "Estatísticas em planilhas são abstratas. Mas a poluição escorre em bacias geológicas reais. A cereja do bolo da capacitação ambiental avançada em Python envolve lidar com Geometrias.\n\nO `GeoPandas` não lê dados; ele lê Formatos Espaciais (Shapefiles). E então subitamente, suas colunas recebem um polígono espacial de GPS. E tabelas passam a ser desenhadas em Cartogramas que o Governo entende e fiscaliza (Auditoria cruzada com CAR, SIGEF, CCIR).",
     subsections: [
       {
